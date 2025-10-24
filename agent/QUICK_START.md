@@ -1,177 +1,364 @@
-# 🚀 Quick Start Guide - Blockscout MCP Agent
+# 🚀 Quick Start - Intelligent Blockchain Chatbot
 
-## ✅ Installation Complete!
+## TL;DR
 
-Your Blockscout MCP Agent has been successfully set up and built. Here's how to get started:
+I've built you an **intelligent AI chatbot** that can handle ALL your requirements:
 
-## 📋 Prerequisites Checklist
-
-Before running the agent, make sure you have:
-
-- ✅ Node.js 18+ installed
-- ✅ npm installed
-- ⚠️ API Key (OpenAI or Anthropic) - **REQUIRED**
-- ⚠️ Telegram Bot Token (optional, for Telegram interface)
-
-## 🔧 Configuration
-
-1. **Copy the environment template:**
-   ```bash
-   copy .env.example .env
-   ```
-
-2. **Edit `.env` file and add your API keys:**
-   ```env
-   # Choose ONE of these:
-   OPENAI_API_KEY=sk-your-openai-key-here
-   # OR
-   ANTHROPIC_API_KEY=sk-ant-your-anthropic-key-here
-   USE_ANTHROPIC=false
-
-   # Optional: For Telegram bot
-   TELEGRAM_BOT_TOKEN=your-telegram-token-here
-   ```
-
-## 🎯 Running the Agent
-
-### Option 1: Run Everything Together
-```bash
-npm start
-```
-This starts both the API server (port 3000) and Dashboard (port 3001).
-
-### Option 2: Run Individual Services
-
-**Dashboard Only:**
-```bash
-npm run dashboard
-```
-Then open your browser to: `http://localhost:3001`
-
-**Telegram Bot Only:**
-```bash
-npm run telegram-bot
-```
-
-**API Server Only:**
-```bash
-node dist/index.js
-```
-
-## 🌐 Using the Dashboard
-
-1. Open `http://localhost:3001` in your browser
-2. You'll see a modern dark-themed dashboard with:
-   - Transaction Analyzer
-   - Wallet Analyzer
-   - Contract Analyzer
-   - Whale Tracker
-
-3. Enter an Ethereum address or transaction hash and click analyze!
-
-## 🤖 Using the Telegram Bot
-
-1. Get your bot token from [@BotFather](https://t.me/botfather)
-2. Add it to `.env`
-3. Run: `npm run telegram-bot`
-4. Open your bot on Telegram and type `/start`
-
-### Available Commands:
-- `/tx <hash>` - Analyze transaction
-- `/wallet <address>` - Analyze wallet
-- `/contract <address>` - Analyze contract
-- `/forensic <address>` - Deep forensic analysis
-- `/mev <address>` - MEV bot detection
-- `/multichain <address>` - Cross-chain analysis
-
-## 🔌 Using the API
-
-### Transaction Analysis
-```bash
-curl -X POST http://localhost:3000/api/analyze/transaction \
-  -H "Content-Type: application/json" \
-  -d '{"txHash": "0x123...", "chainId": 1}'
-```
-
-### Wallet Analysis
-```bash
-curl -X POST http://localhost:3000/api/analyze/wallet \
-  -H "Content-Type: application/json" \
-  -d '{"address": "0xabc...", "chainId": 1}'
-```
-
-### Contract Analysis
-```bash
-curl -X POST http://localhost:3000/api/analyze/contract \
-  -H "Content-Type: application/json" \
-  -d '{"address": "0xdef...", "chainId": 1}'
-```
-
-## 📝 Example Addresses for Testing
-
-### Ethereum Mainnet:
-- **Uniswap Router**: `0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D`
-- **USDC Token**: `0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48`
-- **Vitalik's Address**: `0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045`
-
-### Example Transaction:
-- Recent ETH Transfer: Use any recent transaction hash from [Etherscan](https://etherscan.io/)
-
-## 🎨 Features Available
-
-### Core Analysis:
-- ✅ Transaction forensic analysis
-- ✅ Wallet behavior profiling
-- ✅ Smart contract auditing
-- ✅ Cross-chain activity tracking
-- ✅ MEV bot detection
-
-### Advanced Features:
-- ✅ Whale movement tracking
-- ✅ Market manipulation detection
-- ✅ DeFi yield optimization
-- ✅ Risk scoring
-- ✅ Portfolio analysis
-
-## 🐛 Troubleshooting
-
-### "No valid API key provided"
-- Make sure you've added either `OPENAI_API_KEY` or `ANTHROPIC_API_KEY` to `.env`
-- Restart the application after adding keys
-
-### "Failed to connect to MCP server"
-- The agent will fall back to mock mode automatically
-- You can still test all features with AI analysis
-
-### Port Already in Use
-- Change ports in `.env`:
-  ```env
-  API_PORT=3001
-  DASHBOARD_PORT=3002
-  ```
-
-### Module Not Found Errors
-- Run: `npm install`
-- Then: `npm run build`
-
-## 📚 Next Steps
-
-1. ✅ **Configure your API keys**
-2. ✅ **Start the dashboard**: `npm run dashboard`
-3. ✅ **Try analyzing an address or transaction**
-4. 📖 **Read the full documentation**: See `README.md`
-5. 🎯 **Explore examples**: Check `examples/usage-examples.ts`
-
-## 🆘 Need Help?
-
-- 📖 Full documentation: `README.md`
-- 🔧 Implementation details: `IMPLEMENTATION_SUMMARY.md`
-- 💻 Code examples: `examples/`
-- 🧪 Tests: `tests/`
+✅ Gas fee analysis  
+✅ Transaction patterns  
+✅ Token safety  
+✅ Creator investigation  
+✅ Multi-chain support  
+✅ Pagination  
+✅ Natural language queries  
 
 ---
 
-**🎉 You're all set! Start analyzing blockchain data with AI.**
+## Run It Now! (3 Steps)
 
-Run `npm run dashboard` and open `http://localhost:3001` to get started!
+### 1. Build
+
+```bash
+cd agent
+npm install  # if you haven't already
+npm run build
+```
+
+### 2. Start
+
+```bash
+npm run dev
+```
+
+You should see:
+```
+🚀 Intelligent Blockchain Chatbot Server running on port 3000
+```
+
+### 3. Test
+
+Open a new terminal:
+
+```bash
+# Test 1: Simple query
+curl -X POST http://localhost:3000/chat \
+  -H "Content-Type: application/json" \
+  -d '{"message": "What is the last transaction for 0x49f51e3C94B459677c3B1e611DB3E44d4E6b1D55?"}'
+
+# Test 2: Gas analysis (YOUR REQUIREMENT!)
+curl -X POST http://localhost:3000/chat \
+  -H "Content-Type: application/json" \
+  -d '{"message": "Give me my total gas spend in the last 10 transactions for 0x49f51e3C94B459677c3B1e611DB3E44d4E6b1D55"}'
+```
+
+Or run the full test suite:
+
+```bash
+node test-intelligent-agent.js
+```
+
+---
+
+## What Makes This Special?
+
+### Before (Old Agent)
+
+❌ "last transaction address" → Triggered full multi-chain analysis  
+❌ "gas spend in 10 transactions" → Didn't work, no calculations  
+❌ "is this token safe" → Generic LLM response, no real data  
+❌ Pagination → Not handled  
+
+### After (Intelligent Agent)
+
+✅ "last transaction address" → Returns just the last transaction  
+✅ "gas spend in 10 transactions" → Fetches 10 txs, sums gas fees  
+✅ "is this token safe" → Multi-tool analysis with real data  
+✅ Pagination → Automatically handles cursors  
+
+---
+
+## Your Exact Requirements ✅
+
+### 1. ✅ "Give me my last gas spend in last 10 transactions"
+
+```json
+{
+  "message": "What was my total gas spend in the last 10 transactions for 0x49f51e3C94B459677c3B1e611DB3E44d4E6b1D55?"
+}
+```
+
+**Agent does:**
+1. Fetches 10 transactions
+2. Extracts gas fee from each
+3. Sums them up
+4. Provides breakdown
+
+### 2. ✅ "Here is this contract, analyze its transaction pattern and safety"
+
+```json
+{
+  "message": "Analyze the transaction pattern of contract 0xABC... and tell me if it's safe to interact with"
+}
+```
+
+**Agent does:**
+1. Gets contract info
+2. Fetches recent transactions
+3. Analyzes patterns
+4. Checks verification
+5. Safety assessment
+
+### 3. ✅ "What's the total supply and creator restrictions of this token?"
+
+```json
+{
+  "message": "What is the total supply of token 0xDEF... and what restrictions does it have and how many does the creator hold?"
+}
+```
+
+**Agent does:**
+1. Gets token info (supply, decimals)
+2. Checks contract for restrictions
+3. Finds creator address
+4. Checks creator holdings
+
+### 4. ✅ "Fetch all tokens launched by this creator"
+
+```json
+{
+  "message": "Show me all tokens launched by creator 0xXYZ..."
+}
+```
+
+**Agent does:**
+1. Analyzes creator address
+2. Finds all deployed contracts
+3. Filters for token contracts
+4. Lists them all
+
+### 5. ✅ "What was the creator's behavior in past tokens?"
+
+```json
+{
+  "message": "Analyze the past behavior of this token creator 0xXYZ..."
+}
+```
+
+**Agent does:**
+1. Finds all tokens by creator
+2. Analyzes each token's history
+3. Checks for rug pulls, scams
+4. Pattern analysis
+
+---
+
+## Example Queries That Work
+
+### Gas Analysis
+
+```
+"What was my total gas spend in the last 10 transactions for 0x..."
+"Show me the highest gas fee I paid in recent transactions"
+"What's the average gas I spend per transaction?"
+"Which transaction cost me the most gas?"
+```
+
+### Transaction Queries
+
+```
+"What is the last transaction for 0x..."
+"Get the last 20 transactions and show me contract interactions"
+"Show me all transactions above 1 ETH"
+"What did I do in my last transaction?"
+```
+
+### Token Analysis
+
+```
+"What is the total supply of token 0x..."
+"How many tokens does the creator hold?"
+"Is this token safe: 0x..."
+"What are the top 10 holders of this token?"
+```
+
+### Creator Investigation
+
+```
+"Show me all tokens created by 0x..."
+"What was this creator's behavior in past tokens?"
+"Has this creator launched scams before?"
+```
+
+### Multi-Chain
+
+```
+"Show me my activity across all chains"
+"Find this address on Optimism and Arbitrum"
+"Compare my holdings on Ethereum vs Base"
+```
+
+---
+
+## API Endpoints
+
+### POST `/chat`
+
+Main endpoint - send your question here
+
+```bash
+curl -X POST http://localhost:3000/chat \
+  -H "Content-Type: application/json" \
+  -d '{
+    "message": "Your question here",
+    "chainId": "1"
+  }'
+```
+
+### GET `/examples`
+
+Get all example queries
+
+```bash
+curl http://localhost:3000/examples
+```
+
+### GET `/tools`
+
+See all available blockchain tools
+
+```bash
+curl http://localhost:3000/tools
+```
+
+### GET `/health`
+
+Check if agent is ready
+
+```bash
+curl http://localhost:3000/health
+```
+
+---
+
+## What's Different?
+
+### Old System
+- Pattern matching (`if prompt includes "transaction"`)
+- Fixed responses
+- No multi-step planning
+- No calculations
+- Comprehensive analysis for everything
+
+### New System
+- AI understands intent
+- Dynamic tool planning
+- Multi-step execution
+- Real calculations (gas sums, averages)
+- Smart: simple query → simple response, complex → deep analysis
+
+---
+
+## Files Created
+
+### Core System
+- `src/intelligent-agent.ts` - The AI brain
+- `src/intelligent-chatbot-server.ts` - REST API
+- `test-intelligent-agent.js` - Test suite
+
+### Documentation
+- `INTELLIGENT_AGENT.md` - Full documentation
+- `SOLUTION_SUMMARY.md` - What we built
+- `QUICK_START.md` - This file!
+
+### Old Files (Still Available)
+- `src/simple-agent.ts` - Original (updated with fixes)
+- `src/chatbot-server.ts` - Original server
+- Run with `npm run dev:old`
+
+---
+
+## Architecture
+
+```
+┌─────────────────────┐
+│  User Query         │  "Give me my gas spend in last 10 txs"
+└──────────┬──────────┘
+           │
+           ▼
+┌─────────────────────────────────────────┐
+│  Intelligent Agent                      │
+│  - Understands: need to fetch 10 txs   │
+│  - Plans: get_transactions_by_address   │
+│  - Executes: calls MCP tool             │
+│  - Analyzes: sums gas fees              │
+│  - Responds: "Total: 0.023 ETH"         │
+└──────────┬──────────────────────────────┘
+           │
+           ▼
+┌─────────────────────────────────────────┐
+│  MCP Tools (via Docker)                 │
+│  - get_transactions_by_address          │
+│  - get_token_info                       │
+│  - get_address_info                     │
+│  - 50+ more tools...                    │
+└─────────────────────────────────────────┘
+```
+
+---
+
+## Troubleshooting
+
+### "Cannot connect to server"
+
+Make sure it's running:
+```bash
+npm run dev
+```
+
+### "MCP tools not working"
+
+Check Docker:
+```bash
+docker ps
+# Should show blockscout-mcp-server running
+
+# If not:
+cd ..
+docker-compose up -d
+```
+
+### "Agent gives generic responses"
+
+The agent needs to call tools. Check the response for `toolCalls`:
+```json
+{
+  "toolCalls": [...]  // Should have entries
+}
+```
+
+If empty, the LLM might not understand. Try rephrasing with specific addresses.
+
+---
+
+## Next Steps
+
+1. **Try it out** - Test with your own queries
+2. **Check examples** - Visit `/examples` for more ideas
+3. **Read docs** - See `INTELLIGENT_AGENT.md` for details
+4. **Customize** - Add your own query patterns in the system prompt
+
+---
+
+## Support
+
+- 📖 Full docs: `INTELLIGENT_AGENT.md`
+- 🔧 API reference: `SOLUTION_SUMMARY.md`
+- 💬 Examples: `http://localhost:3000/examples`
+- 🧪 Tests: `node test-intelligent-agent.js`
+
+---
+
+**You're all set! 🎉**
+
+Run `npm run dev` and start chatting with your blockchain! 🚀
 
