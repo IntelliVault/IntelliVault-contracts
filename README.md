@@ -1,6 +1,3 @@
-# Vault
-
-
 # IntelliVault: A Decentralized RWA Trading Hub
 
 IntelliVault is a decentralized platform for trading tokenized real-world assets (RWAs) like bonds and stocks. It leverages the stability of **PYUSD** for all on-chain transactions and integrates **Blockscout's (MCP)** to provide unparalleled cross-chain transparency and security for users.
