@@ -1,6 +1,15 @@
-# 🤖 Blockchain Intelligence Platform
+# 🤖 IntelliVault AI Agent System
 
-A comprehensive AI-powered blockchain analysis platform combining **Model Context Protocol (MCP)** for multi-chain blockchain analysis and **Vault AI Agent** for DeFi trading operations.
+> ETHOnline 2025 - Dual AI Agent Architecture for Blockchain Intelligence & DeFi Trading
+
+[![Gemini](https://img.shields.io/badge/LLM-Gemini%202.0%20Flash-blue.svg)](https://ai.google.dev/)
+[![LangChain](https://img.shields.io/badge/LangChain-0.3-green.svg)](https://js.langchain.com/)
+[![MCP](https://img.shields.io/badge/Protocol-Model%20Context%20Protocol-orange.svg)](https://modelcontextprotocol.io/)
+[![Socket.IO](https://img.shields.io/badge/Socket.IO-4.8-purple.svg)](https://socket.io/)
+
+Built with **Blockscout MCP**, **Hardhat**, and **PayPal USD (PYUSD)** for ETHOnline 2025
+
+---
 
 ## 📋 Table of Contents
 
@@ -8,10 +17,8 @@ A comprehensive AI-powered blockchain analysis platform combining **Model Contex
 - [Architecture](#architecture)
 - [Requirements](#requirements)
 - [Installation](#installation)
-- [Running the Servers](#running-the-servers)
-- [System Components](#system-components)
-- [MCP Server Details](#mcp-server-details)
-- [Vault AI Agent Details](#vault-ai-agent-details)
+- [Running the Agents](#running-the-agents)
+- [Agent Capabilities](#agent-capabilities)
 - [How It Works](#how-it-works)
 - [Configuration](#configuration)
 - [Troubleshooting](#troubleshooting)
@@ -20,63 +27,63 @@ A comprehensive AI-powered blockchain analysis platform combining **Model Contex
 
 ## 🎯 Overview
 
-This platform consists of two main AI agents:
+IntelliVault implements a **dual AI agent system** combining blockchain intelligence and DeFi trading:
 
-1. **MCP Blockchain Intelligence Server** (`npm run dev`)
-   - Multi-chain blockchain analysis
-   - Smart contract verification
-   - Transaction history tracking
-   - Token holdings analysis
-   - Cross-chain activity monitoring
+### 1. Query Mode - Blockscout MCP Agent (Port 3000)
+- **Technology**: Model Context Protocol + Blockscout API
+- **Purpose**: Multi-chain blockchain analysis
+- **Features**: Smart contract analysis, transaction history, gas analytics, token holdings
 
-2. **Vault AI Trading Agent** (`npm run dev:ai`)
-   - Real-time token pricing
-   - Buy/sell transaction preparation
-   - MetaMask integration
-   - Support for multiple stock tokens (Tesla, Google, Microsoft)
-   - WebSocket-based real-time communication
+### 2. Agent Mode - Vault Trading Agent (Port 3002)
+- **Technology**: LangChain + WebSocket + Gemini 2.0 Flash
+- **Purpose**: DeFi trading operations
+- **Features**: Real-time pricing, buy/sell transactions, MetaMask integration
+
+**Both agents use Gemini 2.0 Flash LLM** for intelligent natural language understanding and tool calling.
 
 ---
 
 ## 🏗️ Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                    User Interface                            │
-│          (Frontend WebSocket/HTTP Clients)                   │
-└─────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────┐
+│              Frontend (React + TypeScript)               │
+│                     Port: 5173                           │
+└──────────────────────────────────────────────────────────┘
                             │
         ┌───────────────────┴───────────────────┐
         │                                       │
         ▼                                       ▼
 ┌──────────────────┐                  ┌──────────────────┐
-│  MCP Server      │                  │  Vault AI Server │
+│  Query Mode      │                  │  Agent Mode      │
 │  (Port 3000)     │                  │  (Port 3002)     │
-└──────────────────┘                  └──────────────────┘
-        │                                       │
-        ▼                                       ▼
-┌──────────────────┐                  ┌──────────────────┐
-│ Intelligent      │                  │ Vault AI Agent   │
-│ Agent            │                  │                  │
-│ • Query          │                  │ • Price Tools    │
-│   Classification │                  │ • Buy/Sell Tools │
-│ • Tool Calling   │                  │ • Token Manager  │
-│ • Response Gen   │                  │                  │
+│                  │                  │                  │
+│ • HTTP Server    │                  │ • WebSocket      │
+│ • Gemini 2.0     │                  │ • Gemini 2.0     │
+│ • Tool Calling   │                  │ • LangChain      │
+│ • MCP Protocol   │                  │ • Token Trading  │
 └──────────────────┘                  └──────────────────┘
         │                                       │
         ▼                                       ▼
 ┌──────────────────┐                  ┌──────────────────┐
 │ Docker MCP       │                  │ Ethers.js        │
 │ Client           │                  │ Provider         │
-│ • Blockscout API │                  │                  │
-│ • Multi-chain    │                  │ • Vault Contract │
-│   Support        │                  │ • Token Pricing  │
+│                  │                  │                  │
+│ • Blockscout API │                  │ • Vault Contract │
+│ • Multi-chain    │                  │ • PYUSD Token    │
+│   (5 chains)     │                  │ • RWA Tokens     │
 └──────────────────┘                  └──────────────────┘
         │                                       │
         ▼                                       ▼
 ┌──────────────────┐                  ┌──────────────────┐
 │ Blockchain Data  │                  │ Sepolia Testnet  │
-│ (Blockscout)     │                  │ Vault Contract   │
+│ (Blockscout)     │                  │                  │
+│                  │                  │ Vault: 0xB6C5... │
+│ • Ethereum (1)   │                  │ PYUSD: 0xCaC5... │
+│ • Sepolia (...)  │                  │ Tokens: 3        │
+│ • Base (84532)   │                  │                  │
+│ • Optimism (10)  │                  │                  │
+│ • Arbitrum (...)│                  │                  │
 └──────────────────┘                  └──────────────────┘
 ```
 
@@ -86,60 +93,63 @@ This platform consists of two main AI agents:
 
 ### System Requirements
 - **Node.js**: >= 18.0.0
-- **npm**: >= 8.0.0
-- **Docker**: Latest version (for MCP server)
+- **npm**: >= 9.0.0
+- **Docker**: Latest version (for Query Mode)
 - **RAM**: 4GB minimum
-- **Disk Space**: 1GB free
+- **OS**: Windows, macOS, or Linux
 
-### API Keys
-- **Gemini API Key**: Required for LLM functionality
-  - Get it from: https://makersuite.google.com/app/apikey
+### API Keys Required
+- **Gemini API Key**: Get from [Google AI Studio](https://makersuite.google.com/app/apikey)
 
 ### Optional
-- **MetaMask**: For executing vault transactions
-- **Sepolia ETH**: For testing vault operations
+- **MetaMask**: For executing transactions
+- **Sepolia ETH + PYUSD**: For testing vault operations
 
 ---
 
 ## 🚀 Installation
 
-### 1. Clone the Repository
+### 1. Clone Repository
+
 ```bash
-git clone <repository-url>
 cd agent
 ```
 
 ### 2. Install Dependencies
+
 ```bash
 npm install
 ```
 
-### 3. Configure Environment Variables
-Create a `.env` file in the root directory:
+### 3. Configure Environment
+
+Create `.env` file:
 
 ```env
-# API Keys
+# API Keys (REQUIRED)
 GEMINI_API_KEY=your_gemini_api_key_here
 
 # Server Configuration
-API_PORT=3001
+API_PORT=3000
+VAULT_PORT=3002
 NODE_ENV=development
 
 # Logging
 LOG_LEVEL=info
 ```
 
-### 4. Start Docker (for MCP server)
+### 4. Start Docker (for Query Mode)
+
 ```bash
-# Make sure Docker Desktop is running
+# Ensure Docker Desktop is running
 docker ps
 ```
 
 ---
 
-## ▶️ Running the Servers
+## ▶️ Running the Agents
 
-### MCP Blockchain Intelligence Server
+### Query Mode - Blockscout MCP Agent
 
 ```bash
 npm run dev
@@ -147,8 +157,8 @@ npm run dev
 
 **Server Details:**
 - **Port**: 3000
-- **Protocol**: HTTP + POST /chat endpoint
-- **Use Case**: Blockchain analysis, contract verification, transaction history
+- **Protocol**: HTTP (POST /chat)
+- **Technology**: MCP + Blockscout API + Gemini 2.0 Flash
 
 **Health Check:**
 ```bash
@@ -160,12 +170,11 @@ curl http://localhost:3000/health
 curl -X POST http://localhost:3000/chat \
   -H "Content-Type: application/json" \
   -d '{
-    "message": "Analyze contract 0xB6C58FDB4BBffeD7B7224634AB932518a29e4C4b",
-    "chainId": "11155111"
+    "message": "Analyze contract 0xB6C58FDB4BBffeD7B7224634AB932518a29e4C4b on Sepolia"
   }'
 ```
 
-### Vault AI Trading Agent
+### Agent Mode - Vault Trading Agent
 
 ```bash
 npm run dev:ai
@@ -174,7 +183,7 @@ npm run dev:ai
 **Server Details:**
 - **Port**: 3002
 - **Protocol**: WebSocket + HTTP
-- **Use Case**: Token trading, price queries, transaction preparation
+- **Technology**: LangChain + Socket.IO + Gemini 2.0 Flash
 
 **Health Check:**
 ```bash
@@ -183,289 +192,65 @@ curl http://localhost:3002/health
 
 **WebSocket Connection:**
 ```javascript
+import { io } from 'socket.io-client';
+
 const socket = io('http://localhost:3002');
 
 socket.on('connect', () => {
   console.log('Connected to Vault AI Agent');
 });
 
-socket.emit('chat_message', {
-  message: 'Get Tesla token price'
+socket.emit('chat_message', { 
+  message: 'What is the Tesla token price?' 
 });
 
 socket.on('chat_response', (response) => {
-  console.log('Response:', response);
+  console.log(response.data.response);
 });
 ```
 
 ---
 
-## 🔧 System Components
+## 🎯 Agent Capabilities
 
-### Core Files Structure
+### Query Mode - Blockscout MCP Agent
 
+**Powered by**: Model Context Protocol + Blockscout
+
+| Feature | Description | Supported Chains |
+|---------|-------------|------------------|
+| **Contract Analysis** | Security assessment, verification status | 5 chains |
+| **Transaction History** | Gas analysis, pattern detection | 5 chains |
+| **Token Holdings** | Cross-chain token balances | 5 chains |
+| **Address Investigation** | Complete address profile | 5 chains |
+| **Gas Analytics** | Total spend, efficiency analysis | 5 chains |
+
+**Supported Blockchains:**
+- Ethereum Mainnet (1)
+- Sepolia Testnet (11155111)
+- Base Sepolia (84532)
+- Optimism (10)
+- Arbitrum One (42161)
+
+**Example Queries:**
 ```
-agent/
-├── src/
-│   ├── intelligent-chatbot-server.ts    # MCP Server (Port 3000)
-│   ├── intelligent-agent.ts             # MCP Agent with tool calling
-│   ├── vault-ai-server.ts               # Vault WebSocket Server (Port 3002)
-│   ├── vault-ai-agent.ts                # Vault AI Agent with LLM
-│   ├── docker-mcp-client.ts             # MCP Docker integration
-│   ├── analysis/
-│   │   └── response-generator.ts        # Intelligent response formatting
-│   ├── config/
-│   │   └── index.ts                     # Configuration management
-│   ├── utils/
-│   │   └── logger.ts                    # Logging utility
-│   └── vault-tokens.json                # Supported token definitions
-├── public/
-│   └── vault-ai-client.html             # Frontend UI
-├── package.json                         # Dependencies and scripts
-├── tsconfig.json                        # TypeScript configuration
-└── .env                                 # Environment variables
-```
-
----
-
-## 🔍 MCP Server Details
-
-### What is MCP (Model Context Protocol)?
-
-MCP is a protocol that allows AI models to interact with external tools and data sources in a standardized way. Our implementation uses:
-
-- **Docker-based Blockscout MCP Server**: Provides blockchain data access
-- **Intelligent Query Classification**: Routes queries to appropriate analysis types
-- **Multi-chain Support**: Ethereum, Sepolia, Base Sepolia, Optimism, Arbitrum
-
-### MCP Server Architecture
-
-```typescript
-// 1. User sends query to MCP server
-POST http://localhost:3000/chat
-{
-  "message": "Show me recent transactions for 0x123...",
-  "chainId": "11155111"
-}
-
-// 2. Intelligent Agent classifies the query
-const queryType = classifyQuery(message);
-// Types: contract_analysis, transaction_history, token_holdings, etc.
-
-// 3. Agent calls appropriate MCP tool
-const tools = {
-  'read_contract': (address, chainId) => { ... },
-  'get_transactions': (address, limit) => { ... },
-  'check_tokens': (address) => { ... }
-}
-
-// 4. Docker MCP Client fetches data
-const result = await dockerMCPClient.callTool(toolName, params);
-
-// 5. Response Generator formats the output
-const response = responseGenerator.generate(queryType, result);
-
-// 6. Returns formatted response to user
-return {
-  success: true,
-  data: { response, toolCalls, iterations }
-}
+- "Show transactions for 0x49f5... across all chains"
+- "Analyze contract 0xB6C5... on Sepolia"
+- "What tokens does 0x49f5... hold?"
+- "Calculate total gas spent for 0x49f5..."
+- "Which chain is most active for 0x49f5...?"
 ```
 
-### How MCP Fetches Responses
+### Agent Mode - Vault Trading Agent
 
-#### Step 1: Docker MCP Client Connection
-```typescript
-// docker-mcp-client.ts
-class DockerMCPClient {
-  async initialize() {
-    // Connect to Docker container running Blockscout MCP
-    this.client = new Client({
-      name: "blockchain-intelligence-client",
-      version: "1.0.0"
-    });
-    
-    // Establish stdio transport to Docker
-    const transport = new StdioClientTransport({
-      command: "docker",
-      args: ["exec", "-i", "mcp-server", "blockscout-mcp"]
-    });
-    
-    await this.client.connect(transport);
-  }
-}
-```
+**Powered by**: LangChain + Gemini 2.0 Flash
 
-#### Step 2: Tool Calling Flow
-```typescript
-// intelligent-agent.ts
-async chat(userMessage: string) {
-  // LLM decides which tool to call
-  const toolCall = extractToolCall(llmResponse);
-  
-  // Execute the tool via MCP
-  const toolResult = await this.mcpClient.callTool(
-    toolCall.name,
-    toolCall.arguments
-  );
-  
-  // LLM processes the result
-  const finalAnswer = await this.llm.invoke([
-    new SystemMessage("Analyze this data..."),
-    new HumanMessage(JSON.stringify(toolResult))
-  ]);
-  
-  return finalAnswer;
-}
-```
-
-#### Step 3: Response Generation
-```typescript
-// analysis/response-generator.ts
-class AnalysisResponseGenerator {
-  generate(queryType: string, data: any): string {
-    switch(queryType) {
-      case 'contract_analysis':
-        return this.formatContractAnalysis(data);
-      case 'transaction_history':
-        return this.formatTransactionHistory(data);
-      case 'defi_protocol_analysis':
-        return this.formatDeFiAnalysis(data);
-      // ... more specialized formatters
-    }
-  }
-}
-```
-
-### Supported MCP Tools
-
-| Tool Name | Description | Parameters |
-|-----------|-------------|------------|
-| `read_contract` | Get contract details and verification status | `address`, `chainId` |
-| `list_transactions` | Get transaction history | `address`, `limit`, `chainId` |
-| `check_token_holdings` | Get token balances | `address`, `chainId` |
-| `analyze_nft_collection` | NFT collection analysis | `contractAddress`, `chainId` |
-| `get_defi_positions` | DeFi protocol positions | `address`, `protocol` |
-
-### Query Classification System
-
-The intelligent agent automatically classifies queries into these types:
-
-1. **Contract Analysis**: "Analyze contract 0x...", "Is this contract verified?"
-2. **Transaction History**: "Show me recent transactions", "Transaction hash analysis"
-3. **Token Holdings**: "What tokens does address hold?", "Check balance"
-4. **DeFi Protocol Analysis**: "Aave positions", "Uniswap liquidity"
-5. **NFT Analysis**: "NFT collection stats", "Show NFT ownership"
-6. **Cross-chain Analysis**: "Activity across all chains"
-7. **Gas Analysis**: "Total gas spent", "Gas optimization"
-8. **Most Active Chain**: "Which chain is most active?"
-9. **General Blockchain**: "Explain blockchain", "What is DeFi?"
-
-### LLM Filtering and Intelligence
-
-#### Gemini LLM Integration
-```typescript
-// vault-ai-agent.ts & intelligent-agent.ts
-this.llm = new ChatGoogleGenerativeAI({
-  apiKey: config.geminiApiKey,
-  model: 'gemini-1.5-flash',  // Fast, cost-effective model
-  temperature: 0.1,             // Low temperature for deterministic responses
-  maxOutputTokens: 8000         // Maximum response length
-});
-```
-
-#### Intelligent Filtering Process
-
-1. **System Prompt Engineering**
-```typescript
-const systemPrompt = `
-You are a blockchain intelligence agent.
-
-AVAILABLE TOOLS:
-- read_contract: Analyze smart contracts
-- list_transactions: Get transaction history
-- check_token_holdings: Get token balances
-
-TOOL CALLING FORMAT:
-TOOL_CALL: tool_name
-ARGS: {"param1": "value1"}
-END_TOOL_CALL
-
-RESPONSE FORMAT:
-After gathering data, provide:
-FINAL_ANSWER: Your analysis here
-
-RULES:
-1. ALWAYS call tools to get real data
-2. Make multiple tool calls if needed for comprehensive analysis
-3. Provide clear, structured responses
-4. Include relevant metrics and insights
-`;
-```
-
-2. **Iterative Tool Calling**
-```typescript
-while (iteration < maxIterations) {
-  // LLM decides next action
-  const response = await this.llm.invoke(messages);
-  
-  // Check if LLM wants to call a tool
-  const toolCall = this.extractToolCall(response.content);
-  
-  if (toolCall) {
-    // Execute tool and add result to conversation
-    const result = await this.executeTool(toolCall);
-    conversationHistory.push({
-      role: 'assistant',
-      content: `Tool result: ${JSON.stringify(result)}`
-    });
-    continue;
-  }
-  
-  // Check if LLM is ready to provide final answer
-  const finalAnswer = this.extractFinalAnswer(response.content);
-  if (finalAnswer) {
-    return finalAnswer;
-  }
-}
-```
-
-3. **Response Quality Control**
-```typescript
-// Response Generator ensures high-quality output
-class AnalysisResponseGenerator {
-  formatContractAnalysis(data: any): string {
-    return `
-🔍 **Contract Analysis**
-
-**Address**: ${data.address}
-**Verification Status**: ${data.isVerified ? '✅ Verified' : '❌ Not Verified'}
-**Compiler**: ${data.compiler}
-**Optimization**: ${data.optimization}
-
-**Key Features**:
-${this.extractKeyFeatures(data)}
-
-**Security Assessment**:
-${this.assessSecurity(data)}
-
-**Recommendations**:
-${this.generateRecommendations(data)}
-    `;
-  }
-}
-```
-
----
-
-## 🏦 Vault AI Agent Details
-
-### Vault Smart Contract Integration
-
-**Contract Details:**
-- **Address**: `0xB6C58FDB4BBffeD7B7224634AB932518a29e4C4b`
-- **Chain**: Sepolia Testnet (Chain ID: 11155111)
-- **PYUSD Token**: `0xCaC524BcA292aaade2DF8A05cC58F0a65B1B3bB9`
+| Feature | Description | Payment Method |
+|---------|-------------|----------------|
+| **Token Pricing** | Real-time prices from vault | PYUSD |
+| **Buy Operations** | Calculate costs & prepare transactions | PYUSD |
+| **Sell Operations** | Calculate returns & prepare transactions | PYUSD |
+| **MetaMask Integration** | One-click transaction execution | PYUSD |
 
 **Supported Tokens:**
 | Symbol | Name | Address |
@@ -474,84 +259,131 @@ ${this.generateRecommendations(data)}
 | GOOGL | Google Token | `0xC411824F1695feeC0f9b8C3d4810c2FD1AB1000a` |
 | MSFT | Microsoft Token | `0x98e565A1d46d4018E46052C936322479431CA883` |
 
-### Vault AI Tools
+**Settlement Currency:** PayPal USD (PYUSD) - `0xCaC524BcA292aaade2DF8A05cC58F0a65B1B3bB9`
 
-The Vault AI Agent provides these tools:
-
-```typescript
-const tools = [
-  {
-    name: 'get_token_price',
-    description: 'Get current token price from vault',
-    parameters: { token_address: 'string' }
-  },
-  {
-    name: 'calculate_buy_cost',
-    description: 'Calculate cost to buy tokens',
-    parameters: { token_address: 'string', amount: 'number' }
-  },
-  {
-    name: 'calculate_sell_return',
-    description: 'Calculate return from selling tokens',
-    parameters: { token_address: 'string', amount: 'number' }
-  },
-  {
-    name: 'prepare_buy_transaction',
-    description: 'Prepare buy transaction for MetaMask',
-    parameters: { token_address: 'string', amount: 'number' }
-  },
-  {
-    name: 'prepare_sell_transaction',
-    description: 'Prepare sell transaction for MetaMask',
-    parameters: { token_address: 'string', amount: 'number' }
-  },
-  {
-    name: 'analyze_contract',
-    description: 'Analyze smart contract (calls MCP server)',
-    parameters: { contract_address: 'string', chain_id: 'string' }
-  },
-  {
-    name: 'get_address_transactions',
-    description: 'Get transaction history (calls MCP server)',
-    parameters: { address: 'string', chain_id: 'string', limit: 'number' }
-  }
-];
+**Example Queries:**
+```
+- "What's the Tesla token price?"
+- "How much to buy 5 Google tokens?"
+- "Buy 3 Microsoft tokens" (auto-triggers MetaMask)
+- "Sell 2 Tesla tokens"
+- "Calculate sell return for 10 GOOGL"
 ```
 
-### Token Name Resolution
-
-The Vault AI Agent intelligently resolves token names:
-
-```typescript
-// Users can use any of these formats:
-"Buy 5 Tesla"              // By name
-"Get TSLA price"           // By symbol
-"Sell 3 Google tokens"     // By name with "tokens"
-"Buy 10 GOOGL"             // By symbol
-"Microsoft price"          // Partial name match
-"0x09572c..."              // By address (exact)
-
-// Agent resolves to correct address:
-resolveTokenAddress("Tesla") // → 0x09572cED4772527f28c6Ea8E62B08C973fc47671
-resolveTokenAddress("GOOGL") // → 0xC411824F1695feeC0f9b8C3d4810c2FD1AB1000a
+**Token Resolution:**
+Users can refer to tokens by name, symbol, or address:
+```
+"Tesla" / "TSLA" / "0x09572c..." → Tesla Token
+"Google" / "GOOGL" / "0xC411..." → Google Token
+"Microsoft" / "MSFT" / "0x98e5..." → Microsoft Token
 ```
 
-### Buy/Sell Transaction Flow
+---
+
+## 🔍 How It Works
+
+### Query Mode - MCP Architecture
+
+**Step-by-Step Flow:**
 
 ```typescript
-// User: "Buy 5 Tesla tokens"
+// 1. User sends query
+POST http://localhost:3000/chat
+{ "message": "Analyze contract 0xB6C5... on Sepolia" }
 
-// Step 1: Agent calculates cost
-const price = await vaultContract.getPrice(teslaAddress);
-const totalCost = price * 5; // e.g., 5.0 PYUSD
+// 2. Intelligent Agent classifies query
+const queryType = classifyQuery(message);
+// → "contract_analysis"
 
-// Step 2: Agent prepares transaction steps
+// 3. Gemini LLM decides to call MCP tool
+const toolCall = {
+  tool: 'get_address_info',
+  args: { address: '0xB6C5...', chain_id: '11155111' }
+};
+
+// 4. Docker MCP Client fetches from Blockscout
+const result = await dockerMCPClient.callTool(toolCall);
+
+// 5. LLM processes result and generates response
+const analysis = await gemini.analyze(result);
+
+// 6. Returns formatted response
 return {
   success: true,
-  operation: 'buy',
-  tokenSymbol: 'TSLA',
-  amount: 5,
-  totalCost: '5.0',
+  response: "Contract Analysis: Vault (0xB6C5...)\n✅ SAFE TO INTERACT\n...",
+  toolCalls: [{ tool: 'get_address_info', result }]
+}
+```
+
+**MCP Tools Available:**
+- `get_address_info` - Address details & verification
+- `get_transactions_by_address` - Transaction history
+- `get_tokens_by_address` - Token holdings
+- `get_token_info` - Specific token details
+- `get_transaction_by_hash` - Single transaction lookup
+
+### Agent Mode - LangChain Architecture
+
+**Step-by-Step Flow:**
+
+```typescript
+// 1. User sends message via WebSocket
+socket.emit('chat_message', { message: 'Buy 5 Tesla tokens' });
+
+// 2. LangChain + Gemini analyzes intent
+const intent = await langchain.analyze(message);
+// → "buy_transaction"
+
+// 3. Agent calls vault tools
+const tools = [
+  { name: 'get_token_price', execute: (token) => {...} },
+  { name: 'prepare_buy_transaction', execute: (token, amount) => {...} }
+];
+
+// 4. Executes tools via Ethers.js
+const price = await vaultContract.getPrice(teslaAddress);
+const tx = prepareBuyTransaction(teslaAddress, 5);
+
+// 5. Returns MetaMask-ready transaction
+return {
+  success: true,
+  response: "To buy 5 TSLA tokens:\n- Cost: 5.0 PYUSD\n...",
+  toolCalls: [{
+    tool: 'prepare_buy_transaction',
+    result: {
+      requiresMetaMask: true,
+      steps: [
+        { action: 'approve_pyusd', amount: '5.0' },
+        { action: 'buy_stock', params: {...} }
+      ]
+    }
+  }]
+}
+
+// 6. Frontend auto-triggers MetaMask
+```
+
+**Vault Tools Available:**
+- `get_token_price` - Real-time price from vault
+- `calculate_buy_cost` - Calculate purchase cost
+- `calculate_sell_return` - Calculate sell return
+- `get_stock_info` - Token details from vault
+- `prepare_buy_transaction` - Prepare MetaMask buy tx
+- `prepare_sell_transaction` - Prepare MetaMask sell tx
+- `analyze_contract` - Call Query Mode for analysis
+- `get_address_transactions` - Call Query Mode for txs
+
+### MetaMask Transaction Flow
+
+```typescript
+// 1. User: "Buy 5 Tesla tokens"
+
+// 2. Agent calculates cost
+const price = await vault.getPrice(teslaAddress);
+const cost = price * 5; // e.g., 5.0 PYUSD
+
+// 3. Agent prepares transaction steps
+return {
   steps: [
     {
       step: 1,
@@ -559,7 +391,7 @@ return {
       description: 'Approve 5.0 PYUSD for vault',
       contract: PYUSD_ADDRESS,
       spender: VAULT_ADDRESS,
-      amount: '5000000' // 6 decimals
+      amount: '5000000' // 6 decimals (PYUSD)
     },
     {
       step: 2,
@@ -570,34 +402,13 @@ return {
       params: { token: teslaAddress, amount: 5 }
     }
   ],
-  requiresMetaMask: true,
-  message: 'To buy 5 TSLA tokens:\n1. Approve 5.0 PYUSD\n2. Execute buy transaction'
+  requiresMetaMask: true
 };
 
-// Step 3: Frontend shows MetaMask button
-// Step 4: User clicks and MetaMask opens for approval
-// Step 5: User confirms transactions in MetaMask
-```
-
-### Integration with MCP Server
-
-The Vault AI Agent can call the MCP server for blockchain analysis:
-
-```typescript
-// User: "Analyze the vault contract"
-
-// Vault AI Agent calls MCP Server
-const response = await fetch('http://localhost:3000/chat', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({
-    message: 'Analyze contract 0xB6C58FDB4BBffeD7B7224634AB932518a29e4C4b',
-    chainId: '11155111'
-  })
-});
-
-// MCP server returns comprehensive analysis
-// Vault AI Agent formats and returns to user
+// 4. Frontend detects requiresMetaMask flag
+// 5. Opens MetaMask for user approval
+// 6. User confirms → Transaction executes
+// 7. Agent confirms success
 ```
 
 ---
@@ -608,14 +419,32 @@ const response = await fetch('http://localhost:3000/chat', {
 
 | Variable | Description | Default | Required |
 |----------|-------------|---------|----------|
-| `GEMINI_API_KEY` | Google Gemini API key for LLM | - | ✅ Yes |
-| `API_PORT` | MCP server port | 3001 | ❌ No |
-| `NODE_ENV` | Environment mode | development | ❌ No |
+| `GEMINI_API_KEY` | Google Gemini API key | - | ✅ Yes |
+| `API_PORT` | Query Mode port | 3000 | ❌ No |
+| `VAULT_PORT` | Agent Mode port | 3002 | ❌ No |
+| `NODE_ENV` | Environment | development | ❌ No |
 | `LOG_LEVEL` | Logging level | info | ❌ No |
 
-### Token Configuration
+### Smart Contract Addresses
 
-Edit `src/vault-tokens.json` to add new tokens:
+**Sepolia Testnet (Chain ID: 11155111)**
+
+```typescript
+// Vault Contract
+VAULT_ADDRESS = '0xB6C58FDB4BBffeD7B7224634AB932518a29e4C4b';
+
+// PayPal USD (Settlement Currency)
+PYUSD_ADDRESS = '0xCaC524BcA292aaade2DF8A05cC58F0a65B1B3bB9';
+
+// RWA Tokens
+TSLA = '0x09572cED4772527f28c6Ea8E62B08C973fc47671'; // Tesla
+GOOGL = '0xC411824F1695feeC0f9b8C3d4810c2FD1AB1000a'; // Google
+MSFT = '0x98e565A1d46d4018E46052C936322479431CA883'; // Microsoft
+```
+
+### Adding New Tokens
+
+Edit `src/vault-tokens.json`:
 
 ```json
 {
@@ -626,300 +455,220 @@ Edit `src/vault-tokens.json` to add new tokens:
       "symbol": "NEW",
       "decimals": 18,
       "isActive": true,
-      "description": "Description here",
-      "addedAt": "2024-12-23T00:00:00.000Z"
+      "description": "Token description",
+      "addedAt": "2025-01-17T00:00:00.000Z"
     }
-  ]
+  ],
+  "metadata": {
+    "version": "1.0.0",
+    "vaultAddress": "0xB6C58FDB4BBffeD7B7224634AB932518a29e4C4b",
+    "chainId": "11155111",
+    "chainName": "Sepolia Testnet"
+  }
 }
-```
-
-### Vault Contract Configuration
-
-Vault address and chain are configured in `vault-ai-agent.ts`:
-
-```typescript
-private readonly VAULT_ADDRESS = '0xB6C58FDB4BBffeD7B7224634AB932518a29e4C4b';
-private readonly CHAIN_ID = 11155111; // Sepolia
-private readonly RPC_URL = 'https://0xrpc.io/sep';
 ```
 
 ---
 
 ## 🐛 Troubleshooting
 
-### MCP Server Issues
+### Query Mode Issues
 
 **Problem**: "Docker MCP client not connected"
+
+**Solution:**
 ```bash
-# Solution: Start Docker and restart server
+# 1. Check Docker is running
 docker ps
+
+# 2. Restart Docker Desktop
+
+# 3. Check MCP configuration
+cat mcp-config.json
+
+# 4. Restart server
 npm run dev
 ```
 
 **Problem**: "Tool call failed"
-```bash
-# Solution: Check Docker logs
-docker logs mcp-server
 
-# Rebuild MCP server
-cd custom-mcp-server
-docker build -t blockscout-mcp .
+**Solution:**
+```bash
+# Check tool availability
+curl http://localhost:3000/tools
+
+# Check agent logs
+tail -f logs/intelligent-agent.log
 ```
 
-### Vault AI Agent Issues
+### Agent Mode Issues
+
+**Problem**: "WebSocket connection failed"
+
+**Solution:**
+```bash
+# 1. Check server is running
+curl http://localhost:3002/health
+
+# 2. Check port not in use
+netstat -ano | findstr :3002
+
+# 3. Check CORS settings in vault-ai-server.ts
+```
 
 **Problem**: "LLM invocation failed"
+
+**Solution:**
 ```bash
-# Solution: Check Gemini API key
+# 1. Verify Gemini API key
 echo $GEMINI_API_KEY
 
-# Test API key
-curl https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent \
-  -H "Content-Type: application/json" \
-  -H "x-goog-api-key: YOUR_API_KEY" \
-  -d '{"contents":[{"parts":[{"text":"Hello"}]}]}'
+# 2. Test API key
+curl https://generativelanguage.googleapis.com/v1beta/models \
+  -H "x-goog-api-key: YOUR_KEY"
+
+# 3. Check LangChain configuration
 ```
 
 **Problem**: "Token not found"
+
+**Solution:**
 ```bash
-# Solution: Check vault-tokens.json
+# 1. Check vault-tokens.json
 cat src/vault-tokens.json
 
-# Ensure token is active
+# 2. Ensure token is active
 # isActive: true
+
+# 3. Verify token address matches vault contract
 ```
 
-**Problem**: "Cannot read properties of undefined (reading 'message')"
-```bash
-# Solution: This was fixed by:
-# 1. Adding message validation in WebSocket handler
-# 2. Using stable Gemini model (gemini-1.5-flash)
-# 3. Adding comprehensive error handling
+### MetaMask Transaction Issues
 
-# If still occurs, check logs:
-tail -f logs/vault-ai-server.log
+**Problem**: "Transaction failed"
+
+**Solution:**
+```bash
+# 1. Ensure you're on Sepolia testnet
+# Chain ID: 11155111
+
+# 2. Check PYUSD balance
+# Need sufficient PYUSD for transactions
+
+# 3. Verify contract addresses
+# Vault: 0xB6C58FDB4BBffeD7B7224634AB932518a29e4C4b
+# PYUSD: 0xCaC524BcA292aaade2DF8A05cC58F0a65B1B3bB9
+
+# 4. Check gas settings
+# Increase gas limit if needed
 ```
 
 ### Common Issues
 
-**Port Already in Use**
+**Port Already in Use:**
 ```bash
-# Find process using port
+# Windows
 netstat -ano | findstr :3000
 netstat -ano | findstr :3002
-
-# Kill process
 taskkill /PID <PID> /F
+
+# Linux/Mac
+lsof -ti:3000 | xargs kill -9
+lsof -ti:3002 | xargs kill -9
 ```
 
-**Module Not Found**
+**Module Not Found:**
 ```bash
-# Reinstall dependencies
 rm -rf node_modules package-lock.json
 npm install
 ```
 
-**TypeScript Errors**
+**TypeScript Errors:**
 ```bash
-# Rebuild
 npm run build
-
-# Check for syntax errors
 npx tsc --noEmit
 ```
 
 ---
 
-## 🎓 Usage Examples
+## 🏆 ETHOnline 2025 Integration
 
-### MCP Server Examples
+### Blockscout MCP Server
+- **Usage**: Query Mode for multi-chain blockchain analytics
+- **Integration**: Docker-based MCP client with Blockscout API
+- **Chains**: Ethereum, Sepolia, Base, Optimism, Arbitrum
 
-```bash
-# Contract Analysis
-curl -X POST http://localhost:3000/chat \
-  -H "Content-Type: application/json" \
-  -d '{
-    "message": "Analyze contract 0xB6C58FDB4BBffeD7B7224634AB932518a29e4C4b on Sepolia",
-    "chainId": "11155111"
-  }'
+### Hardhat
+- **Usage**: Smart contract development and deployment
+- **Contracts**: Vault, RWA tokens (TSLA, GOOGL, MSFT)
+- **Network**: Sepolia Testnet
 
-# Transaction History
-curl -X POST http://localhost:3000/chat \
-  -H "Content-Type: application/json" \
-  -d '{
-    "message": "Show last 10 transactions for 0x49f51e3C94B459677c3B1e611DB3E44d4E6b1D55",
-    "chainId": "1"
-  }'
+### PayPal USD (PYUSD)
+- **Usage**: Settlement currency for all vault transactions
+- **Contract**: `0xCaC524BcA292aaade2DF8A05cC58F0a65B1B3bB9`
+- **Features**: Buy/sell RWA tokens, stablecoin-backed liquidity
 
-# Token Holdings
-curl -X POST http://localhost:3000/chat \
-  -H "Content-Type: application/json" \
-  -d '{
-    "message": "What tokens does 0x49f51e3C94B459677c3B1e611DB3E44d4E6b1D55 hold?",
-    "chainId": "1"
-  }'
+---
 
-# Cross-Chain Analysis
-curl -X POST http://localhost:3000/chat \
-  -H "Content-Type: application/json" \
-  -d '{
-    "message": "Analyze activity across all chains for 0x49f51e3C94B459677c3B1e611DB3E44d4E6b1D55"
-  }'
+## 📚 Resources
+
+### Documentation
+- [Blockscout MCP](https://docs.blockscout.com/)
+- [Hardhat](https://hardhat.org/docs)
+- [LangChain](https://js.langchain.com/)
+- [Gemini AI](https://ai.google.dev/)
+- [Model Context Protocol](https://modelcontextprotocol.io/)
+- [PayPal USD](https://developer.paypal.com/docs/pyusd/)
+
+### Smart Contracts
+- **Explorer**: https://eth-sepolia.blockscout.com/
+- **Vault**: `0xB6C58FDB4BBffeD7B7224634AB932518a29e4C4b`
+- **PYUSD**: `0xCaC524BcA292aaade2DF8A05cC58F0a65B1B3bB9`
+
+---
+
+## 📝 Project Structure
+
 ```
-
-### Vault AI Agent Examples
-
-Using WebSocket (JavaScript):
-
-```javascript
-const socket = io('http://localhost:3002');
-
-// Get Token Price
-socket.emit('chat_message', { message: 'What is the current price of Tesla token?' });
-
-// Calculate Buy Cost
-socket.emit('chat_message', { message: 'How much will it cost to buy 10 Google tokens?' });
-
-// Calculate Sell Return
-socket.emit('chat_message', { message: 'How much will I get for selling 5 Microsoft tokens?' });
-
-// Prepare Buy Transaction
-socket.emit('chat_message', { message: 'Buy 5 Tesla tokens' });
-
-// Prepare Sell Transaction
-socket.emit('chat_message', { message: 'Sell 3 Google tokens' });
-
-// Contract Analysis (calls MCP)
-socket.emit('chat_message', { message: 'Analyze the vault contract' });
-
-// Listen for responses
-socket.on('chat_response', (response) => {
-  if (response.data.success) {
-    console.log('Response:', response.data.data.response);
-    console.log('Tool calls:', response.data.data.toolCalls);
-  } else {
-    console.error('Error:', response.data.error);
-  }
-});
-```
-
-Using HTTP (for simple queries):
-
-```bash
-curl -X POST http://localhost:3002/api/chat \
-  -H "Content-Type: application/json" \
-  -d '{"message": "Get Tesla price"}'
+agent/
+├── src/
+│   ├── intelligent-chatbot-server.ts    # Query Mode HTTP Server
+│   ├── intelligent-agent.ts             # MCP Agent + LLM Logic
+│   ├── vault-ai-websocket-server.ts     # Agent Mode WebSocket Server
+│   ├── vault-ai-agent.ts                # Vault Agent + LangChain
+│   ├── docker-mcp-client.ts             # MCP Client (Blockscout)
+│   ├── analysis/
+│   │   └── response-generator.ts        # Response Formatting
+│   ├── config/
+│   │   └── index.ts                     # Configuration
+│   ├── utils/
+│   │   └── logger.ts                    # Logging
+│   └── vault-tokens.json                # Token Definitions
+├── public/
+│   └── vault-ai-client.html             # Test Client UI
+├── mcp-config.json                      # MCP Configuration
+├── package.json                         # Dependencies
+├── tsconfig.json                        # TypeScript Config
+└── .env                                 # Environment Variables
 ```
 
 ---
 
-## 📊 Performance Optimization
+## 🙏 Acknowledgments
 
-### LLM Response Time
-- **Gemini 1.5 Flash**: ~2-3 seconds per response
-- **Tool Calling**: +1-2 seconds per tool
-- **Total**: 3-7 seconds for complex queries
-
-### MCP Server Performance
-- **Docker overhead**: ~100ms
-- **Blockscout API**: ~500ms-2s
-- **Response formatting**: ~50ms
-
-### Caching Strategies
-```typescript
-// Implement caching for frequently accessed data
-const cache = new Map();
-
-async function getTokenPrice(address: string) {
-  const cacheKey = `price_${address}`;
-  const cached = cache.get(cacheKey);
-  
-  if (cached && Date.now() - cached.timestamp < 60000) {
-    return cached.data; // Cache for 1 minute
-  }
-  
-  const price = await vaultContract.getPrice(address);
-  cache.set(cacheKey, { data: price, timestamp: Date.now() });
-  
-  return price;
-}
-```
+- **Blockscout** - Multi-chain blockchain data and MCP server
+- **Hardhat** - Smart contract development framework
+- **PayPal USD** - Stablecoin settlement layer
+- **Google Gemini** - LLM capabilities
+- **LangChain** - AI agent orchestration
+- **ETHOnline 2025** - For the opportunity to innovate
 
 ---
 
-## 🔐 Security Best Practices
-
-1. **API Keys**: Never commit `.env` file
-2. **Input Validation**: All user inputs are validated
-3. **Rate Limiting**: Implement rate limiting for production
-4. **Error Handling**: Sensitive data not exposed in errors
-5. **MetaMask**: Transactions require user confirmation
-
----
-
-## 🚀 Deployment
-
-### Production Build
-```bash
-npm run build
-npm start           # MCP Server
-npm start:ai        # Vault AI Agent
-```
-
-### Docker Deployment
-```bash
-# Build Docker image
-docker build -t blockchain-intelligence-platform .
-
-# Run container
-docker run -p 3000:3000 -p 3002:3002 \
-  -e GEMINI_API_KEY=your_key \
-  blockchain-intelligence-platform
-```
-
-### Environment-Specific Configs
-```bash
-# Production
-NODE_ENV=production npm start
-
-# Staging
-NODE_ENV=staging npm start
-
-# Development
-NODE_ENV=development npm run dev
-```
-
----
-
-## 📝 License
+## 📄 License
 
 MIT License
 
 ---
 
-## 🤝 Contributing
-
-Contributions welcome! Please read our contributing guidelines before submitting PRs.
-
----
-
-## 📞 Support
-
-For issues and questions:
-- GitHub Issues: [Create an issue]
-- Documentation: This README
-- Logs: Check `logs/` directory
-
----
-
-## 🎉 Conclusion
-
-You now have a comprehensive AI-powered blockchain intelligence platform with:
-- ✅ Multi-chain blockchain analysis via MCP
-- ✅ DeFi trading operations via Vault AI Agent
-- ✅ Intelligent query classification
-- ✅ Real-time WebSocket communication
-- ✅ MetaMask integration
-- ✅ Comprehensive logging and error handling
-
-**Start the servers and begin exploring blockchain data with AI! 🚀**
+**Built with ❤️ for ETHOnline 2025**
